@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: producer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: producer
+  template:
+    metadata:
+      labels:
+        app: producer
+    spec:
+      containers:
+      - name: producer
+        image: library/producer:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: KAFKA_SERVICE_NAME
+          value: "kafka-service"
+        - name: KAFKA_SERVICE_PORT
+          value: "9092"
+        - name: REDIS_SERVICE_NAME
+          value: "redis-service"
+        - name: REDIS_SERVICE_PORT
+          value: "6379"
+        ports:
+        - containerPort: 5000
+

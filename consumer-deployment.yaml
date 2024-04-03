@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: consumer-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: consumer
+  template:
+    metadata:
+      labels:
+        app: consumer
+    spec:
+      containers:
+      - name: consumer
+        image: library/consumer:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: KAFKA_SERVICE_NAME
+          value: "kafka-service"
+        - name: KAFKA_SERVICE_PORT
+          value: "9092"
+        - name: REDIS_SERVICE_NAME
+          value: "redis-service"
+        - name: REDIS_SERVICE_PORT
+          value: "6379"
